@@ -4,7 +4,6 @@ import pandas as pd
 pd.set_option('expand_frame_repr', False) # 当列太多时不换行
 pd.set_option('display.max_rows', 5000)   # 最多显示数据的行数
 
-# ====神奇的网址
 # 返回指定股票的数据：http://hq.sinajs.cn/list=sh600000,sz000002,sz300001
 # 正常网址：https://finance.sina.com.cn/realstock/company/sh600000/nc.shtml
 
