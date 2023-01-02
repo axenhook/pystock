@@ -152,9 +152,7 @@ def get_all_today_stock_data_from_sina_marketcenter():
 
     return all_df
 
-df = get_all_today_stock_data_from_sina_marketcenter()
-
-
+"""
 if is_today_trading_day() is False:
     print('今天不是交易日，不需要更新股票数据，退出程序')
     exit()
@@ -162,6 +160,7 @@ if is_today_trading_day() is False:
 if datetime.now().hour < 15: # 保险起见可以小于16点
     print('今天股票尚未收盘，暂不更新股票数据，退出程序')
     exit()
+"""
 
 # 更新数据思路1
 # 1. 获取最新的股票数据
@@ -176,8 +175,6 @@ df = get_all_today_stock_data_from_sina_marketcenter()
 for i in df.index:
     t = df.iloc[i:i+1, :]
     stock_code = t.iloc[0]['股票代码']
-    print(stock_code)
-    exit()
 
     # 构建存储文件路径
     path = "D:\\stock\\stock_data\\" + stock_code + ".csv"
