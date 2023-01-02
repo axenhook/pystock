@@ -1,4 +1,4 @@
-# 获取股票的日k线数据
+# 获取股票的分钟k线数据
 from urllib.request import urlopen # python自带爬虫库
 import json  # python自带的json数据库
 from random import randint  # python自带的随机数库
