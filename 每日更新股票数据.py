@@ -117,16 +117,17 @@ def get_all_today_stock_data_from_sina_marketcenter():
         content = get_content_from_internet(url)
         content = content.decode('gbk')
 
-        # 判断页数是否为空
-        if 'null' in content:
-            print('抓取到网页的尽头，退出循环')
-            break
-        # 通过正则表达式，给key加上引号
-        content = re.sub(r'(?<={|,)([a-zA-Z][a-zA-Z0-9]*)(?=:)', r'"\1"', content)
+         # 通过正则表达式，给key加上引号
+        #content = re.sub(r'(?<={|,)([a-zA-Z][a-zA-Z0-9]*)(?=:)', r'"\1"', content)
         #print(content)
 
         # 将数据转换成dict格式
         content = json.loads(content)
+
+        # content是一个list，判断list是否为空
+        if len(content) == 0:
+            print('所有网页都已抓完，退出循环')
+            break
 
         # 将数据转换成DataFrame格式
         df = pd.DataFrame(content)
@@ -141,6 +142,8 @@ def get_all_today_stock_data_from_sina_marketcenter():
         df['交易日期'] = pd.to_datetime(datetime.now().date())
         # 取需要的列
         df = df[['股票代码', '股票名称', '交易日期', '开盘价', '最高价', '最低价', '收盘价', '前收盘价', '成交量', '成交额', '流通市值', '总市值']]
+        df['流通市值'] = df['流通市值'].map(lambda x: x*10000)
+        df['总市值'] = df['总市值'].map(lambda x: x*10000)
 
         # 合并数据
         all_df = all_df.append(df, ignore_index=True)
@@ -148,7 +151,7 @@ def get_all_today_stock_data_from_sina_marketcenter():
         # 页数+1
         page_num += 1
         time.sleep(1)
-        break
+        #break
 
     return all_df
 
@@ -156,11 +159,11 @@ def get_all_today_stock_data_from_sina_marketcenter():
 if is_today_trading_day() is False:
     print('今天不是交易日，不需要更新股票数据，退出程序')
     exit()
+"""
 
 if datetime.now().hour < 15: # 保险起见可以小于16点
     print('今天股票尚未收盘，暂不更新股票数据，退出程序')
     exit()
-"""
 
 # 更新数据思路1
 # 1. 获取最新的股票数据
